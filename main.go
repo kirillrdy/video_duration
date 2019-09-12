@@ -12,6 +12,7 @@ import (
 func main() {
 
 	remove := flag.Bool("rm", false, "Removes videos longer than 1h")
+	seconds := flag.Bool("s", false, "Display duration in seconds")
 	flag.Parse()
 
 	var sum time.Duration
@@ -23,7 +24,11 @@ func main() {
 			if *remove == true && duration > time.Hour {
 				os.Remove(file)
 			}
-			fmt.Printf("%s %s\n", file, duration)
+			if *seconds == true {
+				fmt.Printf("%s %f\n", file, duration.Seconds())
+			} else {
+				fmt.Printf("%s %s\n", file, duration)
+			}
 			sum += duration
 		}
 	}
